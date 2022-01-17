@@ -1,36 +1,27 @@
 package main
 
-import "fmt"
-
-type ContaCoarrente struct {
-	titular string
-	agencia int
-	conta   int
-	saldo   float64
-}
-
-func (c *ContaCoarrente) sacar(valorSaque float64) (string, float64) {
-	podeSacar := valorSaque > 0 && valorSaque <= c.saldo
-
-	if podeSacar {
-		c.saldo -= valorSaque
-		return "Saque no valor R$", valorSaque
-	} else {
-		return "Saldo insuficiente", c.saldo
-	}
-}
-
-func (c *ContaCoarrente) depositar(valor float64) (string, float64) {
-	if valor > 0 {
-		c.saldo += valor
-		return "Depósito realizado: R$", valor
-	} else {
-		return "Valor do depósito menor que zero", valor
-	}
-}
+import (
+	"fmt"
+	"go-oo/clientes"
+	"go-oo/contas"
+)
 
 func main() {
-	contaWesley := ContaCoarrente{}
+
+	clienteIsadora := clientes.Titular{Nome: "Isadora Pereira", Cpf: "789", Profissao: "Médica"}
+	contaIsadora := contas.CC{clienteIsadora, 999, 666, 10000}
+	fmt.Println(contaIsadora)
+
+	/*contaWesley := contas.CC{Titular: "Wesley", Saldo: 1300}
+	contaFadia := contas.CC{Titular: "Fadia", Saldo: 2000}
+
+	status := contaWesley.Transferir(-500, &contaFadia)
+
+	fmt.Println(status)
+	fmt.Println(contaWesley)
+	fmt.Println(contaFadia)
+
+	contaWesley := CC{}
 	contaWesley.titular = "Wesley"
 	contaWesley.agencia = 123
 	contaWesley.agencia = 321
@@ -42,6 +33,6 @@ func main() {
 	fmt.Println(contaWesley.depositar(1000))
 	fmt.Println("Saldo atual R$:", contaWesley.saldo)
 
-	/*	status, valor := contaWesley.depositar(1000)
-		fmt.Println(status, valor)*/
+	status, valor := contaWesley.depositar(1000)
+	fmt.Println(status, valor)*/
 }
