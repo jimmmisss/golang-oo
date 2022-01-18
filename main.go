@@ -5,18 +5,32 @@ import (
 	"go-oo/contas"
 )
 
+func PagarBoleto(conta verificarConta, valorDoBoleto float64) {
+	conta.Sacar(valorDoBoleto)
+}
+
+type verificarConta interface {
+	Sacar(valor float64) string
+}
+
 func main() {
 
-	contaExemplo := contas.CC{}
-	contaExemplo.Depositar(-55100)
-	fmt.Println(contaExemplo.ObterSaldo())
+	contaWesley := contas.ContaPoupanca{}
+	contaWesley.Depositar(1000)
+	PagarBoleto(&contaWesley, 130)
+	fmt.Println(contaWesley.ObterSaldo())
+
+	contaFadia := contas.ContaCorrente{}
+	contaFadia.Depositar(400)
+	PagarBoleto(&contaFadia, 130)
+	fmt.Println(contaFadia.ObterSaldo())
 
 	/*clienteIsadora := clientes.Titular{Nome: "Isadora Pereira", Cpf: "789", Profissao: "Médica"}
-	contaIsadora := contas.CC{clienteIsadora, 999, 666, 10000}
+	contaIsadora := contas.contaCorrente{clienteIsadora, 999, 666, 10000}
 	fmt.Println(contaIsadora)*/
 
-	/*contaWesley := contas.CC{Titular: "Wesley", saldo: 1300}
-	contaFadia := contas.CC{Titular: "Fadia", saldo: 2000}
+	/*contaWesley := contas.contaCorrente{Titular: "Wesley", saldo: 1300}
+	contaFadia := contas.contaCorrente{Titular: "Fadia", saldo: 2000}
 
 	status := contaWesley.Transferir(-500, &contaFadia)
 
@@ -24,7 +38,7 @@ func main() {
 	fmt.Println(contaWesley)
 	fmt.Println(contaFadia)
 
-	contaWesley := CC{}
+	contaWesley := contaCorrente{}
 	contaWesley.titular = "Wesley"
 	contaWesley.agencia = 123
 	contaWesley.agencia = 321
