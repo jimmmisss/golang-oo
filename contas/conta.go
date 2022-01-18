@@ -6,23 +6,23 @@ type CC struct {
 	Titular clientes.Titular
 	Agencia int
 	Conta   int
-	Saldo   float64
+	saldo   float64
 }
 
-func (c *CC) sacar(valorSaque float64) (string, float64) {
-	podeSacar := valorSaque > 0 && valorSaque <= c.Saldo
+func (c *CC) Sacar(valorSaque float64) (string, float64) {
+	podeSacar := valorSaque > 0 && valorSaque <= c.saldo
 
 	if podeSacar {
-		c.Saldo -= valorSaque
+		c.saldo -= valorSaque
 		return "Saque no valor R$", valorSaque
 	} else {
-		return "Saldo insuficiente", c.Saldo
+		return "saldo insuficiente", c.saldo
 	}
 }
 
-func (c *CC) depositar(valor float64) (string, float64) {
+func (c *CC) Depositar(valor float64) (string, float64) {
 	if valor > 0 {
-		c.Saldo += valor
+		c.saldo += valor
 		return "Depósito realizado: R$", valor
 	} else {
 		return "Valor do depósito menor que zero", valor
@@ -30,11 +30,15 @@ func (c *CC) depositar(valor float64) (string, float64) {
 }
 
 func (c *CC) Transferir(valorTransferencia float64, destino *CC) bool {
-	if valorTransferencia < c.Saldo && valorTransferencia > 0 {
-		c.Saldo -= valorTransferencia
-		destino.depositar(valorTransferencia)
+	if valorTransferencia < c.saldo && valorTransferencia > 0 {
+		c.saldo -= valorTransferencia
+		destino.Depositar(valorTransferencia)
 		return true
 	} else {
 		return false
 	}
+}
+
+func (c *CC) ObterSaldo() float64 {
+	return c.saldo
 }
